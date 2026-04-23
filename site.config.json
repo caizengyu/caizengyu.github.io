@@ -1,0 +1,26 @@
+{
+  "pageTitle": "蔡增玉教授 | 个人主页",
+  "hero": {
+    "nameAndTitle": "蔡增玉",
+    "avatarUrl": "../img/czy.jpg",
+    "avatarAlt": "教授头像",
+    "tags": [
+      "郑州轻工业大学",
+      "教授"
+    ]
+  },
+  "profile": {
+    "left": [
+      { "label": "单位", "value": "郑州轻工业大学计算机与人工智能学院" },
+      { "label": "职务", "value": "教授" }
+    ],
+    "right": [
+    ]
+  },
+  "links": [
+    { "label": "邮箱", "href": "mailczy@163.com" },
+    { "label": "电话", "href": "0371-86609559" },
+    { "label": "通信地址", "href": "郑州市东风路5号" }
+  ],
+  "footer": "© 2026 教蔡增玉教授个人主页 | 最后更新：2026-04"
+}

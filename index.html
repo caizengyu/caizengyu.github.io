@@ -1,1 +1,735 @@
-<h1>大家好</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>教授个人主页</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --muted: #374151;
+      --primary: #2563eb;
+      --border: #e5e7eb;
+      --sidebar-bg: #f3f4f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 18px 0;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 34px;
+    }
+
+    .sidebar-wrap {
+      position: relative;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--sidebar-bg);
+      padding: 32px 16px;
+      height: 100vh;
+    }
+
+    .sidebar-section {
+      border-bottom: none;
+      padding-bottom: 0;
+      text-align: center;
+    }
+
+    .sidebar-section:last-child {
+      padding-top: 32px;
+    }
+
+    .sidebar-section .menu {
+      display: inline-flex;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 1px solid #d1d5db;
+      object-fit: cover;
+      background: #e5e7eb;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 8px;
+      line-height: 1.4;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-top: 12px;
+      font-weight: 800;
+      font-family: "Source Han Serif SC", "Noto Serif SC", "STSong", "Songti SC", serif;
+      letter-spacing: 0.02em;
+      color: #111827;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: 800;
+      color: #111827;
+      font-family: "Source Han Serif SC", "Noto Serif SC", "STSong", "Songti SC", serif;
+      letter-spacing: 0.01em;
+    }
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #111827;
+      font-weight: 800;
+      font-family: "Source Han Serif SC", "Noto Serif SC", "STSong", "Songti SC", serif;
+    }
+
+    p {
+      margin: 12px 0;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+      justify-content: center;
+    }
+
+    .tag {
+      color: #1f2937;
+      font-size: 13px;
+      padding: 0;
+      font-weight: 500;
+    }
+
+    .profile-list {
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .profile-list li {
+      margin: 0;
+      padding: 4px 0;
+      color: #334155;
+      font-size: 14px;
+      transform: translateX(0);
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .profile-list li:hover {
+      transform: translateX(4px);
+      color: #0f172a;
+    }
+
+    .profile-list strong {
+      color: #0f172a;
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .menu a {
+      color: #111827;
+      text-decoration: none;
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu a:hover {
+      color: var(--primary);
+      background: #f3f4f6;
+      transform: translateX(4px);
+    }
+
+    .menu a.active {
+      color: var(--primary);
+      background: #eff6ff;
+      font-weight: 700;
+      transform: translateX(4px);
+    }
+
+    .menu a::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      border-radius: 2px;
+      background: var(--primary);
+      transform: scaleY(0);
+      transition: transform 0.2s ease;
+      transform-origin: center;
+    }
+
+    .menu a:hover::before,
+    .menu a.active::before {
+      transform: scaleY(1);
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      padding-top: 40px;
+      padding-bottom: 36px;
+    }
+
+    .content-section {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 40px;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .content-section.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .subsection-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #111827;
+      margin: 24px 0 12px 0;
+      font-family: "Source Han Serif SC", "Noto Serif SC", "STSong", "Songti SC", serif;
+    }
+
+    .subsection-title:first-child {
+      margin-top: 16px;
+    }
+
+    ul {
+      margin: 6px 0 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 6px;
+      color: #1f2937;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .timeline-item {
+      border-left: 2px solid #d1d5db;
+      padding: 1px 0 8px 12px;
+      margin-left: 2px;
+      margin-bottom: 5px;
+    }
+
+    .timeline-year {
+      color: #111827;
+      font-weight: 800;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-links div {
+      color: #1f2937;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .links a:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    footer {
+      text-align: left;
+      color: #6b7280;
+      font-size: 13px;
+      padding: 2px 0;
+    }
+
+    .expand-btn {
+      color: var(--primary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 5px 0;
+      margin-top: 5px;
+      text-decoration: underline;
+    }
+
+    .expand-btn:hover {
+      color: #1d4ed8;
+    }
+
+    .hidden-item {
+      display: none;
+    }
+
+    .hidden-item.visible {
+      display: list-item;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInFromLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        padding: 0 14px 20px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      p, li {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+
+  <script>
+    async function loadTextFile(path) {
+      const response = await fetch(path, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`读取失败: ${path}`);
+      }
+      return response.text();
+    }
+
+    async function loadJsonFile(path) {
+      const response = await fetch(path, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`读取失败: ${path}`);
+      }
+      return response.json();
+    }
+
+    function parseMarkdownSections(markdown) {
+      const sections = {};
+      const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+      let currentTitle = "";
+      let currentContent = [];
+
+      function saveCurrent() {
+        if (!currentTitle) {
+          return;
+        }
+        sections[currentTitle] = currentContent.join("\n").trim();
+      }
+
+      lines.forEach((line) => {
+        const headingMatch = line.match(/^##\s+(.+)$/);
+        if (headingMatch) {
+          saveCurrent();
+          currentTitle = headingMatch[1].trim();
+          currentContent = [];
+          return;
+        }
+        currentContent.push(line);
+      });
+      saveCurrent();
+
+      return sections;
+    }
+
+    function parseBulletList(text) {
+      if (!text) {
+        return [];
+      }
+      return text
+        .split("\n")
+        .map((line) => line.trim())
+        .filter((line) => line.startsWith("- "))
+        .map((line) => line.replace(/^- /, "").trim());
+    }
+
+    function parseAchievements(text) {
+      return parseBulletList(text);
+    }
+
+    function buildSiteData(config, markdownSections) {
+      return {
+        pageTitle: config.pageTitle,
+        hero: {
+          nameAndTitle: config.hero.nameAndTitle,
+          intro: markdownSections["个人简介"] || "",
+          workExperience: markdownSections["工作经历"] || "",
+          researchDirection: markdownSections["研究方向"] || "",
+          avatarUrl: config.hero.avatarUrl,
+          avatarAlt: config.hero.avatarAlt,
+          tags: config.hero.tags || []
+        },
+        profile: config.profile,
+        lab: {
+          description: markdownSections["实验室介绍"] || "",
+          points: parseBulletList(markdownSections["实验室要点"])
+        },
+        achievements: parseAchievements(markdownSections["代表性成果"]),
+        papers: parseBulletList(markdownSections["论文"]),
+        books: parseBulletList(markdownSections["专著"]),
+        projects: parseBulletList(markdownSections["项目与经费"]),
+        admissions: {
+          intro: markdownSections["招生简介"] || "",
+          points: parseBulletList(markdownSections["招生要点"])
+        },
+        links: config.links || [],
+        note: config.note || "",
+        footer: config.footer || ""
+      };
+    }
+
+    function escapeHtml(text) {
+      const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+      return String(text).replace(/[&<>"']/g, (char) => map[char]);
+    }
+
+    function escapeHtmlWithNewlines(text) {
+      return escapeHtml(text).replace(/\n/g, "<br>");
+    }
+
+    function renderLabelRow(item) {
+      return `<li><strong>${escapeHtml(item.label)}：</strong>${escapeHtml(item.value)}</li>`;
+    }
+
+    function renderList(items, listId) {
+      const maxShow = 5;
+      const showMore = items.length > maxShow;
+
+      let itemsHtml = "";
+      items.forEach((item, index) => {
+        const isHidden = showMore && index >= maxShow;
+        const className = isHidden ? `class="hidden-item" data-list="${listId}"` : "";
+        itemsHtml += `<li ${className}>${escapeHtml(item)}</li>`;
+      });
+
+      let moreBtnHtml = "";
+      if (showMore) {
+        moreBtnHtml = `<button class="expand-btn" data-list="${listId}">查看更多 (${items.length - maxShow}条)</button>`;
+      }
+
+      return `<ul>${itemsHtml}</ul>${moreBtnHtml}`;
+    }
+
+    function renderAchievements(items) {
+      return renderList(items, "achievements");
+    }
+
+    function renderApp(data) {
+      document.title = data.pageTitle;
+
+      const profileItems = [...data.profile.left, ...data.profile.right].map(renderLabelRow).join("");
+      const tags = data.hero.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+      const achievements = renderAchievements(data.achievements);
+      const contactLinks = data.links
+        .map(
+          (link) =>
+            `<div>${escapeHtml(link.label)}：${escapeHtml(link.href)}</div>`
+        )
+        .join("");
+
+      // 判断各部分是否有内容
+      const hasLab = data.lab.description || data.lab.points.length > 0;
+      const hasAchievements = data.achievements.length > 0;
+      const hasPapers = data.papers.length > 0;
+      const hasBooks = data.books.length > 0;
+      const hasProjects = data.projects.length > 0;
+      const hasAdmissions = data.admissions.intro || data.admissions.points.length > 0;
+      const hasContact = data.links.length > 0 || data.note;
+
+      // 构建菜单项
+      const menuItems = [
+        { id: "about", label: "个人简介", show: true },
+        { id: "lab", label: "实验室介绍", show: hasLab },
+        { id: "achievements", label: "代表性成果", show: hasAchievements },
+        { id: "papers", label: "论文成果", show: hasPapers },
+        { id: "books", label: "专著出版", show: hasBooks },
+        { id: "projects", label: "项目与经费", show: hasProjects },
+        { id: "admissions", label: "招生信息", show: hasAdmissions },
+        { id: "contact", label: "联系方式", show: hasContact }
+      ];
+      const menuHtml = menuItems
+        .filter(item => item.show)
+        .map((item) => `<a href="#${item.id}">${escapeHtml(item.label)}</a>`)
+        .join("");
+
+      const appHtml = `
+        <div class="container">
+          <aside class="sidebar-wrap">
+            <div class="sidebar">
+              <section class="sidebar-section">
+                <div>
+                  <img class="avatar" src="${escapeHtml(data.hero.avatarUrl)}" alt="${escapeHtml(data.hero.avatarAlt)}" />
+                  <h1>${escapeHtml(data.hero.nameAndTitle)}</h1>
+                  <div class="meta">${tags}</div>
+                </div>
+              </section>
+
+              <section class="sidebar-section">
+                <nav class="menu">${menuHtml}</nav>
+              </section>
+            </div>
+          </aside>
+
+          <div class="content">
+            <section id="about" class="content-section">
+              <h2>个人简介</h2>
+              <p>${escapeHtml(data.hero.intro)}</p>
+              <div class="subsection-title">工作经历</div>
+              <p>${escapeHtmlWithNewlines(data.hero.workExperience)}</p>
+              <div class="subsection-title">研究方向</div>
+              <p>${escapeHtml(data.hero.researchDirection)}</p>
+            </section>
+
+            ${hasLab ? `
+            <section id="lab" class="content-section">
+              <h2>实验室介绍</h2>
+              <p>${escapeHtml(data.lab.description)}</p>
+              ${renderList(data.lab.points, "lab")}
+            </section>
+            ` : ''}
+
+            ${hasAchievements ? `
+            <section id="achievements" class="content-section">
+              <h2>代表性成果</h2>
+              ${achievements}
+            </section>
+            ` : ''}
+
+            ${hasPapers ? `
+            <section id="papers" class="content-section">
+              <h2>论文</h2>
+              ${renderList(data.papers, "papers")}
+            </section>
+            ` : ''}
+
+            ${hasBooks ? `
+            <section id="books" class="content-section">
+              <h2>专著</h2>
+              ${renderList(data.books, "books")}
+            </section>
+            ` : ''}
+
+            ${hasProjects ? `
+            <section id="projects" class="content-section">
+              <h2>项目与经费</h2>
+              ${renderList(data.projects, "projects")}
+            </section>
+            ` : ''}
+
+            ${hasAdmissions ? `
+            <section id="admissions" class="content-section">
+              <h2>学生培养与招生</h2>
+              <p>${escapeHtml(data.admissions.intro)}</p>
+              ${renderList(data.admissions.points, "admissions")}
+            </section>
+            ` : ''}
+
+            ${hasContact ? `
+            <section id="contact" class="content-section">
+              <h2>联系方式</h2>
+              <div class="contact-links">${contactLinks}</div>
+              <p>${escapeHtml(data.note)}</p>
+            </section>
+            ` : ''}
+
+            <footer>${escapeHtml(data.footer)}</footer>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("app").innerHTML = appHtml;
+
+      // 查看更多按钮点击事件
+      const expandBtns = Array.from(document.querySelectorAll(".expand-btn"));
+      expandBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const listId = btn.getAttribute("data-list");
+          const hiddenItems = Array.from(document.querySelectorAll(`[data-list="${listId}"].hidden-item`));
+          hiddenItems.forEach((item) => {
+            item.classList.add("visible");
+            item.classList.remove("hidden-item");
+          });
+          btn.style.display = "none";
+        });
+      });
+
+      // 左侧目录跟随右侧滚动位置高亮，增强交互动效
+      const navLinks = Array.from(document.querySelectorAll(".menu a"));
+      const sections = navLinks
+        .map((link) => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+      const contentSections = Array.from(document.querySelectorAll(".content-section"));
+
+      let isClicking = false;
+
+      // 点击菜单时直接激活对应的菜单项
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          isClicking = true;
+          navLinks.forEach((l) => l.classList.remove("active"));
+          link.classList.add("active");
+
+          // 1秒后恢复滚动监听
+          setTimeout(() => {
+            isClicking = false;
+          }, 1000);
+        });
+      });
+
+      // 滚动监听，判断最上方的内容
+      const updateActiveMenu = () => {
+        if (isClicking) return;
+
+        const scrollPosition = window.scrollY + 100; // 稍微提前一点判断
+
+        // 找到最上方的section
+        let activeSection = null;
+        for (const section of sections) {
+          const rect = section.getBoundingClientRect();
+          const sectionTop = rect.top + window.scrollY;
+          if (sectionTop <= scrollPosition) {
+            activeSection = section;
+          } else {
+            break;
+          }
+        }
+
+        if (activeSection) {
+          const id = activeSection.getAttribute("id");
+          navLinks.forEach((link) => {
+            const isActive = link.getAttribute("href") === `#${id}`;
+            link.classList.toggle("active", isActive);
+          });
+        }
+      };
+
+      // 监听滚动事件
+      window.addEventListener("scroll", updateActiveMenu);
+      // 初始调用一次
+      updateActiveMenu();
+
+      const fadeObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              fadeObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -100px 0px", threshold: 0.1 }
+      );
+
+      contentSections.forEach((section) => fadeObserver.observe(section));
+    }
+
+    async function init() {
+      try {
+        const [config, markdownText] = await Promise.all([
+          loadJsonFile("./site.config.json"),
+          loadTextFile("./site.content.md")
+        ]);
+        const markdownSections = parseMarkdownSections(markdownText);
+        const siteData = buildSiteData(config, markdownSections);
+        renderApp(siteData);
+      } catch (error) {
+        document.getElementById("app").innerHTML = `
+          <div style="max-width: 720px; margin: 60px auto; padding: 0 16px; font-family: Arial, sans-serif;">
+            <h2>页面加载失败</h2>
+            <p>未能读取配置文件或 Markdown 文件。</p>
+            <p>请确认同级目录存在 <code>site.config.json</code> 和 <code>site.content.md</code>。</p>
+            <p style="color:#b91c1c;">错误信息：${escapeHtml(error.message)}</p>
+          </div>
+        `;
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
